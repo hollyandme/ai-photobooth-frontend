@@ -1,0 +1,12 @@
+server {
+  # This will be replaced by the port Railway gives us
+  listen ${PORT};
+  server_name localhost;
+
+  root /usr/share/nginx/html;
+  index index.html;
+
+  location / {
+    try_files $uri $uri/ /index.html;
+  }
+}
