@@ -22,5 +22,6 @@ COPY nginx.conf.template /etc/nginx/conf.d/nginx.conf.template
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
-EXPOSE 8080 # Expose a default port, Railway will override this
+# Expose a default port, Railway will override this
+EXPOSE 8080
 CMD ["/start.sh"]
