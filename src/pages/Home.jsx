@@ -90,10 +90,10 @@ export default function Home() {
 
             const [uploadData1, uploadData2] = await Promise.all(uploadResponses.map(res => res.json()));
             console.log('Upload responses:', uploadData1, uploadData2);
-            
+
             let { file_url: imageUrl1 } = uploadData1;
             let { file_url: imageUrl2 } = uploadData2;
-            
+
             if (!imageUrl1 || !imageUrl2) {
                 throw new Error('An uploaded file URL was not returned from the server.');
             }
@@ -102,7 +102,7 @@ export default function Home() {
             // This function replaces placeholder domains with the correct Railway URL
             const correctUrl = (url) => {
                 console.log('Original URL:', url);
-                
+
                 if (url && (url.includes('https://your-api-domain.com') || url.includes('http://localhost') || url.includes('127.0.0.1'))) {
                     try {
                         const urlPath = new URL(url).pathname;
@@ -136,7 +136,7 @@ export default function Home() {
             if (!generateResponse.ok) {
                 const errorText = await generateResponse.text();
                 console.error('Generation error response:', errorText);
-                
+
                 // Show more user-friendly error message
                 if (generateResponse.status === 500) {
                     throw new Error('Server error: The AI generation service is currently unavailable. Please try again later.');
@@ -144,13 +144,13 @@ export default function Home() {
                     throw new Error(`Image generation failed: ${generateResponse.status} ${generateResponse.statusText}`);
                 }
             }
-            
+
             const generateData = await generateResponse.json();
             console.log('Generation response:', generateData);
-            
+
             // Get the generated image URL and apply correction
             let generatedImageUrl = generateData.generated_image_url || generateData.image_url || generateData.url || generateData.result;
-            
+
             console.log('Raw generated image URL:', generatedImageUrl);
             generatedImageUrl = correctUrl(generatedImageUrl);
             console.log('Corrected generated image URL:', generatedImageUrl);
@@ -161,13 +161,13 @@ export default function Home() {
             }
 
             console.log('Setting generated image URL:', generatedImageUrl);
-            
+
             // Set the image directly - let the browser handle loading
             setGeneratedImage(generatedImageUrl);
 
         } catch (e) {
             console.error('Error in handleGenerate:', e);
-            
+
             // Provide more specific error messages based on the error type
             if (e.message.includes('Failed to fetch') || e.name === 'TypeError') {
                 setError('Cannot connect to the AI service. This might be a CORS issue. Please check the browser console for details.');
@@ -178,7 +178,7 @@ export default function Home() {
             setIsLoading(false);
         }
     };
-    
+
     const handleReset = () => {
         setSelfie1(null);
         setSelfie2(null);
@@ -188,7 +188,7 @@ export default function Home() {
 
     return (
         <div ref={containerRef} className="relative min-h-screen w-full bg-[#EFEFEF] flex flex-col items-center justify-start py-12 px-4 overflow-hidden">
-            
+
             <AnimatePresence>
                 {generatedImage ? (
                     <motion.div
@@ -204,9 +204,9 @@ export default function Home() {
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ delay: 0.1 }}
                         >
-                            <img 
-                                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68d90dc184e60b6096c911f0/d6b6f912d_title.png" 
-                                alt="AI Photo Booth" 
+                            <img
+                                src="https://adrodev.de/pub/photobooth/photobooth_header.png"
+                                alt="AI Photo Booth"
                                 className="w-full h-auto select-none z-10 relative"
                                 style={{ maxWidth: '14rem' }}
                             />
@@ -248,7 +248,7 @@ export default function Home() {
                                 animate={{ scale: 1, opacity: 1 }}
                                 transition={{ type: "spring", stiffness: 260, damping: 20, delay: 1 }}
                             >
-                                <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68d90dc184e60b6096c911f0/86c9d1939_download_photo.png" alt="Download Photo" className="w-full h-full object-contain"/>
+                                <img src="https://adrodev.de/pub/photobooth/download.png" alt="Download Photo" className="w-full h-full object-contain"/>
                             </motion.a>
 
                             {/* Take new photo button - positioned on the left */}
@@ -259,13 +259,13 @@ export default function Home() {
                                 animate={{ scale: 1, opacity: 1 }}
                                 transition={{ type: "spring", stiffness: 260, damping: 20, delay: 1 }}
                             >
-                                <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68d90dc184e60b6096c911f0/ebfc4d409_take_new_photo.png" alt="Take a new photo" className="w-full h-full object-contain"/>
+                                <img src="https://adrodev.de/pub/photobooth/take.png" alt="Take a new photo" className="w-full h-full object-contain"/>
                             </motion.button>
                         </div>
                     </motion.div>
                 ) : (
                     <React.Fragment>
-                        <motion.div 
+                        <motion.div
                             initial={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.2 }}
@@ -274,14 +274,14 @@ export default function Home() {
                             {/* Title and Photo Strip Container */}
                             <div className="relative flex justify-center mb-4">
                                 {/* Custom Title Image */}
-                                <img 
-                                    src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68d90dc184e60b6096c911f0/d6b6f912d_title.png" 
-                                    alt="AI Photo Booth" 
+                                <img
+                                    src="https://adrodev.de/pub/photobooth/photobooth_header.png"
+                                    alt="AI Photo Booth"
                                     className="w-full h-auto select-none z-10 relative"
                                     style={{ maxWidth: '14rem' }}
                                 />
                             </div>
-                            
+
                             {/* Subtitle */}
                             <div className="text-center mb-1 px-4">
                                 <p className="font-special-elite text-sm md:text-base text-[#C73E2E] tracking-[0.3em] max-w-xs mx-auto">
@@ -289,33 +289,33 @@ export default function Home() {
                                 </p>
                             </div>
                         </motion.div>
-                        <motion.div 
-                            key="uploaders" 
+                        <motion.div
+                            key="uploaders"
                             className="w-full flex justify-center mt-0"
                         >
                             {/* Unified Layout for both Mobile and Desktop */}
                             <div className="flex flex-col items-center relative pt-8">
                                 {/* Photo Strip for Mobile - positioned in background */}
-                                <motion.img 
-                                    src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68d90dc184e60b6096c911f0/cfe9a5bf9_Bildschirmfoto2025-09-28um131215.png" 
-                                    alt="Sample photobooth strip" 
-                                    className="absolute z-0 w-24 md:w-32 h-auto select-none" 
+                                <motion.img
+                                    src="https://adrodev.de/pub/photobooth/stripe.png"
+                                    alt="Sample photobooth strip"
+                                    className="absolute z-0 w-24 md:w-32 h-auto select-none"
                                     style={{ right: '40px', top: '30px', rotate: mobileStripRotate }}
                                 />
-                                
-                                <motion.img 
-                                    src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68d90dc184e60b6096c911f0/dd28eff65_instructions.png" 
-                                    alt="Upload instructions" 
+
+                                <motion.img
+                                    src="https://adrodev.de/pub/photobooth/instructions.png"
+                                    alt="Upload instructions"
                                     className="w-80 md:w-[30rem] h-auto select-none z-5 mb-2"
                                     style={{ rotate: instructionMobileRotate }}
                                 />
-                                
+
                                 <div className="relative w-64 md:w-96 h-36 md:h-48 z-10">
                                     <motion.div
                                         className="absolute w-28 h-28 md:w-auto md:h-auto"
                                         style={{ left: '0%', top: '-35px', rotate: mobileSquare1Rotate }}
                                     >
-                                        <ImageUploader 
+                                        <ImageUploader
                                             image={selfie1} setImage={setSelfie1} isRed={false}
                                             className="w-full h-full md:w-40 md:h-40"
                                         />
@@ -324,14 +324,14 @@ export default function Home() {
                                         className="absolute w-28 h-28 md:w-auto md:h-auto"
                                         style={{ right: '0%', top: '-40px', rotate: mobileSquare2Rotate }}
                                     >
-                                        <ImageUploader 
+                                        <ImageUploader
                                             image={selfie2} setImage={setSelfie2} isRed={true}
                                             className="w-full h-full md:w-40 md:h-40"
                                         />
                                     </motion.div>
                                 </div>
 
-                                <button 
+                                <button
                                     onClick={handleGenerate}
                                     disabled={isLoading || !selfie1 || !selfie2}
                                     className="relative transition-all duration-300 transform hover:scale-105 active:scale-95 disabled:cursor-not-allowed bg-transparent border-none p-0 z-20 mt-[-3rem]"
@@ -341,8 +341,8 @@ export default function Home() {
                                             <Loader2 className="animate-spin w-10 h-10 md:w-12 md:h-12 text-white" />
                                         </div>
                                     ) : (
-                                        <img 
-                                            src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68d90dc184e60b6096c911f0/8b83b4a5a_take_photo_button.png"
+                                        <img
+                                            src="https://adrodev.de/pub/photobooth/take_button.png"
                                             alt="Take Photo Button"
                                             className="w-44 h-44 md:w-52 md:h-52 object-contain"
                                         />
@@ -367,3 +367,4 @@ export default function Home() {
         </div>
     );
 }
+
